@@ -1,0 +1,16 @@
+language: generic
+sudo: required
+services:
+  - docker
+
+before_install:
+  - docker build -t burnsmarty/react-test -f ./client/Dockerfile.dev ./client
+
+script:
+  - docker run -e CI=true burnsmarty/react-test npm run test
+
+after_success:
+  - docker build -t burnsmarty/multi-client ./client
+  - docker build -t burnsmarty/multi-nginx ./nginx
+  - docker build -t burnsmarty/multi-server ./server
+  - docker build -t burnsmarty/multi-worker ./worker
