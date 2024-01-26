@@ -14,3 +14,9 @@ after_success:
   - docker build -t burnsmarty/multi-nginx ./nginx
   - docker build -t burnsmarty/multi-server ./server
   - docker build -t burnsmarty/multi-worker ./worker
+  # login to dockerhub and push images
+  - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_ID" --password-stdin
+  - docker push burnsmarty/multi-client
+  - docker push burnsmarty/multi-nginx
+  - docker push burnsmarty/multi-server
+  - docker push burnsmarty/multi-worker
